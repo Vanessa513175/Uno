@@ -3,15 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:PlayUnoGUI.View"
-             mc:Ignorable="d" Height="400" Width="280">
-    <Grid Background="{Binding Color}">
-        <TextBlock Text="{Binding Value}" 
-                   FontSize="48" 
-                   Foreground="White" 
-                   FontWeight="Bold" 
-                   HorizontalAlignment="Center" 
-                   VerticalAlignment="Center" />
+             mc:Ignorable="d" 
+             Height="110" Width="75">
+    <Grid Background="Transparent">
+        <Border CornerRadius="10"
+                BorderThickness="2"
+                BorderBrush="White"
+                Background="{Binding Color}"
+                SnapsToDevicePixels="True"
+                ClipToBounds="True">
+            <Grid Margin="2,5,2,3">
+                <TextBlock Text="{Binding Value, FallbackValue='No'}"
+                           FontSize="36"
+                           Foreground="White"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" />
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>
-

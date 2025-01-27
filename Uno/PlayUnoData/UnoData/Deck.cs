@@ -17,6 +17,12 @@ namespace PlayUnoData.UnoData
         #region Constants
         private const int NUMBER_OF_NUMBER_CARDS = 10;
         private const int WILD_CART_COUNT = 4; // Wild, WildDrawFour
+
+        public const string LABEL_RED = "Red";
+        public const string LABEL_GREEN = "Green";
+        public const string LABEL_BLUE = "Blue";
+        public const string LABEL_YELLOW = "Yellow";
+        public const string LABEL_BLACK = "Black";
         #endregion
 
         #region Events
@@ -30,7 +36,13 @@ namespace PlayUnoData.UnoData
         /// <summary>
         /// Get the current card of the deck
         /// </summary>
-        public Card? CurrentCard { get { return _currentCard; } }
+        public Card? CurrentCard { 
+            get { return _currentCard; } 
+            set
+            {
+                _currentCard = value;
+            }
+        }
 
         /// <summary>
         /// Get the number of cards remaining
@@ -60,9 +72,9 @@ namespace PlayUnoData.UnoData
         /// </summary>
         private void InitializeDeck()
         {
-            List<Color> colors = new List<Color> { Color.Red, Color.Blue, Color.Green, Color.Yellow };
+            List<string> colors = [LABEL_RED, LABEL_BLUE, LABEL_GREEN, LABEL_YELLOW];
             // Add number cards (0-9)
-            foreach (Color color in colors)
+            foreach (string color in colors)
             {
                 // Add one 0 card
                 _cards.Push(new Card(CardType.Number, color, 0));
@@ -86,8 +98,8 @@ namespace PlayUnoData.UnoData
             // Add Wild and WildDrawFour cards
             for (int i = 0; i < WILD_CART_COUNT; i++)
             {
-                _cards.Push(new Card(CardType.Wild, Color.Black));
-                _cards.Push(new Card(CardType.WildDrawFour, Color.Black));
+                _cards.Push(new Card(CardType.Wild, LABEL_BLACK));
+                _cards.Push(new Card(CardType.WildDrawFour, LABEL_BLACK));
             }
         }
 
@@ -113,13 +125,12 @@ namespace PlayUnoData.UnoData
         /// </summary>
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
-        public Card? DrawCard()
+        public Card DrawCard()
         {
             if (_cards.Count == 0)
             {
                 if (_oldCards.Count == 0) { 
                     Logger.Instance.Log(Logger.ELevelMessage.Error, "Problème de gestion de la pioche (vide)");
-                    return null;
                 }
 
                 // Reshuffle old cards into the deck
@@ -146,7 +157,7 @@ namespace PlayUnoData.UnoData
                 return false;
             }
 
-            if (card.Color != _currentCard.Color && card.Type != _currentCard.Type && card.Color != Color.Black)
+            if (card.Color != _currentCard.Color && card.Type != _currentCard.Type && card.Color != LABEL_BLACK)
             {
                 return false;
             }

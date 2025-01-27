@@ -38,11 +38,11 @@ namespace PlayUnoData.UnoData
             set {  _type = value; }
         }
 
-        private Color _color;
+        private string _color;
         /// <summary>
         /// Get the color of the card
         /// </summary>
-        public Color Color { 
+        public string Color { 
             get { return _color; } 
             set { _color = value; }
         }
@@ -70,7 +70,7 @@ namespace PlayUnoData.UnoData
         /// <param name="color"></param>
         /// <param name="value"></param>
         /// <exception cref="ArgumentException"></exception>
-        public Card(CardType type, Color color, int value = -1)
+        public Card(CardType type, string color, int value = -1)
         {
             _type = type;
             _color = color;

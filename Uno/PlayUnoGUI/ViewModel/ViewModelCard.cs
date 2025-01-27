@@ -7,17 +7,27 @@ using System.Threading.Tasks;
 using Core;
 using PlayUnoData.UnoData;
 
-namespace PlayUnoGUI
+namespace PlayUnoGUI.ViewModel
 {
     public class ViewModelCard : ViewModelBase
     {
         #region Fields and Properties
-        private readonly Card _cardObject;
+        private Card _cardObject;
+        public Card CardObject
+        {
+            get { return _cardObject; }
+            set
+            {
+                _cardObject = value;
+                Color = _cardObject.Color;
+                Value = _cardObject.StringValue;
+            }
+        }
 
         /// <summary>
         /// The color of the card
         /// </summary>
-        public Color Color
+        public string Color
         {
             get { return _cardObject.Color; }
             set
@@ -48,7 +58,7 @@ namespace PlayUnoGUI
         /// </summary>
         public ViewModelCard()
         {
-            _cardObject = new Card(Card.CardType.Number, Color.White, 0);
+            _cardObject = new Card(Card.CardType.Number, "Gray", 0);
         }
 
         #endregion

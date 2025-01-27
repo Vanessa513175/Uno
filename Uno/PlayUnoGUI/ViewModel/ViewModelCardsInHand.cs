@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
+using PlayUnoData.UnoData;
 
 namespace PlayUnoGUI.ViewModel
 {
-    class ViewModelCardsInHand : ViewModelBase
+    public class ViewModelCardsInHand : ViewModelBase
     {
         #region Enum
         #endregion
@@ -22,9 +23,6 @@ namespace PlayUnoGUI.ViewModel
 
         #region Field et Properties
         private ObservableCollection<ViewModelCard> _cardsInHand;
-        /// <summary>
-        /// Cards in hand
-        /// </summary>
         public ObservableCollection<ViewModelCard> CardsInHand
         {
             get { return _cardsInHand; }
@@ -44,7 +42,8 @@ namespace PlayUnoGUI.ViewModel
         /// </summary>
         public ViewModelCardsInHand()
         {
-            _cardsInHand = [];
+            if (_cardsInHand == null)
+                _cardsInHand = new ObservableCollection<ViewModelCard>();
         }
 
         #endregion
@@ -59,9 +58,12 @@ namespace PlayUnoGUI.ViewModel
         /// Add a card
         /// </summary>
         /// <param name="card"></param>
-        public void AddCard(ViewModelCard card)
+        public void AddCard(Card card)
         {
-            CardsInHand.Add(card);
+            var viewModel = new ViewModelCard();
+            viewModel.CardObject = card;
+            CardsInHand.Add(viewModel);
+            RaisePropertyChanged("CardsInHand");
         }
 
         /// <summary>

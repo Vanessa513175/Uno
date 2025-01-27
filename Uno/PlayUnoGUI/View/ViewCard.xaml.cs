@@ -23,7 +23,6 @@ namespace PlayUnoGUI.View
         public ViewCard()
         {
             InitializeComponent();
-            DataContext = new ViewModelCard();
         }
     }
 }

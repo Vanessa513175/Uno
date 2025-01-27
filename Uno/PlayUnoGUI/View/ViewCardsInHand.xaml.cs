@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using PlayUnoGUI.ViewModel;
 
-namespace PlayUnoGUI
+namespace PlayUnoGUI.View
 {
     /// <summary>
     /// Logique d'interaction pour ViewCardsInHand.xaml
@@ -24,7 +24,6 @@ namespace PlayUnoGUI
         public ViewCardsInHand()
         {
             InitializeComponent();
-            DataContext = new ViewModelCardsInHand();
         }
     }
 }
