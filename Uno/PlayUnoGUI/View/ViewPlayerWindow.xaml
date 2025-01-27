@@ -1,0 +1,45 @@
+﻿<Window x:Class="PlayUnoGUI.View.ViewPlayerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PlayUnoGUI.View"
+        mc:Ignorable="d"
+        Title="{Binding PlayerName}" Height="500" Width="900">
+    <Grid>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10">
+            <TextBlock Text="Résumé" FontWeight="Bold" FontSize="15" />
+            <TextBlock Text="Nombre de joueurs : " FontSize="15" />
+            <TextBlock Text="{Binding PlayerCount}" FontSize="15" />
+            <TextBlock Text="Cartes restantes dans la pioche : " FontSize="15" />
+            <TextBlock Text="{Binding DeckCardCount}" FontSize="15" />
+            <TextBlock Text="Vos cartes : " FontSize="15" />
+            <TextBlock Text="{Binding PlayerCardCount}" FontSize="15" />
+        </StackPanel>
+
+        <ItemsControl ItemsSource="{Binding OtherPlayers}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderThickness="1" BorderBrush="Black" Padding="10" Margin="5">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                            <TextBlock Text="Cartes restantes : {Binding CardCount}" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <local:ViewCard DataContext="{Binding CurrentCard}" />
+        </StackPanel>
+
+        <DockPanel VerticalAlignment="Bottom" Margin="10, 10, 10, 30">
+            <StackPanel >
+                <local:ViewCardsInHand DataContext="{Binding PlayerHand}" />
+            </StackPanel>
+            <Button Content="Envoyer" Command="{Binding SendCardCommand}"
+                    IsEnabled="{Binding IsPlayerTurn}" Width="100" Height="40" DockPanel.Dock="Right" />
+        </DockPanel>
+    </Grid>
+</Window>
