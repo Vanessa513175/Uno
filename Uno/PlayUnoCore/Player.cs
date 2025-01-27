@@ -22,10 +22,10 @@ namespace PlayUnoCore
         #endregion
 
         #region Field et Properties
-        private string _name;
+        private readonly string _name;
         public string Name { get { return _name; } }
 
-        private List<Card> _cardsInHand;
+        private readonly List<Card> _cardsInHand;
         public List<Card> CardsInHand { get { return _cardsInHand; } }
         #endregion
 
@@ -37,7 +37,7 @@ namespace PlayUnoCore
         public Player(string name)
         {
             _name = name;
-            _cardsInHand = new List<Card>();
+            _cardsInHand = [];
         }
         #endregion
 

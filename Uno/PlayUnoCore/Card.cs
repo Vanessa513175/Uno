@@ -18,13 +18,22 @@ namespace PlayUnoCore
         #endregion
 
         #region Field et Properties
-        private CardType _type;
+        private readonly CardType _type;
+        /// <summary>
+        /// Get the type of the card
+        /// </summary>
         public CardType Type { get { return _type; } }
 
-        private CardColor _color;
+        private readonly CardColor _color;
+        /// <summary>
+        /// Get the color of the card
+        /// </summary>
         public CardColor Color { get { return _color; } }
 
-        private int _value;
+        private readonly int _value;
+        /// <summary>
+        /// Get the value of the card
+        /// </summary>
         public int Value { get { return _value; } } 
         #endregion
 

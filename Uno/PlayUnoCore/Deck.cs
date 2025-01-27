@@ -16,10 +16,8 @@ namespace PlayUnoCore
         #endregion
 
         #region Constants
-        private const int NumberOfColors = 4;
-        private const int NumberOfNumberCards = 10;
-        private const int SpecialCardsPerColor = 2; // Reverse, Skip, DrawTwo
-        private const int WildCardsCount = 4; // Wild, WildDrawFour
+        private const int NUMBER_OF_NUMBER_CARDS = 10;
+        private const int WILD_CART_COUNT = 4; // Wild, WildDrawFour
         #endregion
 
         #region Events
@@ -28,9 +26,16 @@ namespace PlayUnoCore
         #region Field et Properties
         private Stack<Card> _cards;
         private Card _currentCard;
-        private Stack<Card> _oldCards;
+        private readonly Stack<Card> _oldCards;
 
+        /// <summary>
+        /// Get the current card of the deck
+        /// </summary>
         public Card CurrentCard { get { return _currentCard; } }
+
+        /// <summary>
+        /// Get the number of cards remaining
+        /// </summary>
         public int RemainingCards => _cards.Count;
         #endregion
 
@@ -65,7 +70,7 @@ namespace PlayUnoCore
                 _cards.Push(new Card(CardType.Number, color, 0));
 
                 // Add two copies of cards 1-9
-                for (int value = 1; value < NumberOfNumberCards; value++)
+                for (int value = 1; value < NUMBER_OF_NUMBER_CARDS; value++)
                 {
                     _cards.Push(new Card(CardType.Number, color, value));
                     _cards.Push(new Card(CardType.Number, color, value));
@@ -81,7 +86,7 @@ namespace PlayUnoCore
             }
 
             // Add Wild and WildDrawFour cards
-            for (int i = 0; i < WildCardsCount; i++)
+            for (int i = 0; i < WILD_CART_COUNT; i++)
             {
                 _cards.Push(new Card(CardType.Wild, CardColor.Black));
                 _cards.Push(new Card(CardType.WildDrawFour, CardColor.Black));

@@ -19,9 +19,8 @@ namespace PlayUnoCore
         #endregion
 
         #region Field et Properties
-        private List<Player> _players;
-        private Deck _deck;
-        private Card _currentCard;
+        private readonly List<Player> _players;
+        private readonly Deck _deck;
         private int _currentPlayerIndex;
         #endregion
 
@@ -50,24 +49,31 @@ namespace PlayUnoCore
                 }
             }
         }
+        #endregion
 
-        private void PlayTurn()
+        #region Public Methods
+        public void NextPlayer()
         {
-            var currentPlayer = _players[_currentPlayerIndex];
-
-            // Afficher les cartes du joueur
-
-            // Demander une carte au joueur
-
-            // Valider si la carte peut être jouée
-
-            // Pioche ?
-
-            // Passer au joueur suivant
             _currentPlayerIndex = (_currentPlayerIndex + 1) % _players.Count;
         }
 
-        private string GetCardsOfCurrentPlayer()
+        public bool IsGameOver()
+        {
+            return _players.Any(player => player.CardsInHand.Count == 0);
+        }
+
+        public void StartGame() 
+        {
+            DealInitialCards();
+            _currentPlayerIndex = 0;
+        }
+
+        public List<Card> GetCardsOfCurrentPlayer()
+        {
+            return _players[_currentPlayerIndex].CardsInHand;
+        }
+
+        public string GetCardsOfCurrentPlayerString()
         {
             var currentPlayer = _players[_currentPlayerIndex];
             var cardsInHand = currentPlayer.CardsInHand;
@@ -79,30 +85,39 @@ namespace PlayUnoCore
             return string.Join(", ", cardList);
         }
 
-        private Card GetChoiceOfCurrentPlayer(int indexOfCards)
+        public bool PlayCardForCurrentPlayer(Card card)
         {
-            var currentPlayer = _players[_currentPlayerIndex];
-
-            if (indexOfCards >= 0 && indexOfCards < currentPlayer.CardsInHand.Count)
+            try
             {
-                return currentPlayer.CardsInHand[indexOfCards];
+                _players[_currentPlayerIndex].RemoveCardFromHand(card);
             }
-            else
+            catch
             {
-                throw new Exception("Choix de carte non valide pour " + currentPlayer.Name);
+                return false;
             }
+            try
+            {
+                _deck.PlayCard(card);
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
         }
-        #endregion
 
-        #region Public Methods
-        public bool IsGameOver()
+        public void DeawCardForCurrentPlayer()
         {
-            return _players.Any(player => player.CardsInHand.Count == 0);
+            _players[_currentPlayerIndex].AddCardToHand(_deck.DrawCard());
         }
 
-        public void StartGame() 
+        public string GetCurrentPlayerName()
         {
-            DealInitialCards();
+            return _players[_currentPlayerIndex].Name;
+        }
+
+        public string GetCurrentCardName() {
+            return _deck.CurrentCard.ToString();
         }
         #endregion
         #endregion
