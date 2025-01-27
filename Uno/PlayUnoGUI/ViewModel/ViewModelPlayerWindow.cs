@@ -46,6 +46,9 @@ namespace PlayUnoGUI.ViewModel
             get { return _deck.RemainingCards; }
         }
 
+        /// <summary>
+        /// Get The Player Card Count
+        /// </summary>
         public int PlayerCardCount
         {
             get { return PlayerHand.CardsInHand.Count; }
@@ -66,7 +69,9 @@ namespace PlayUnoGUI.ViewModel
         }
 
         private ViewModelCardsInHand _playerHand;
-
+        /// <summary>
+        /// Get the Player Hand (View Model)
+        /// </summary>
         public ViewModelCardsInHand PlayerHand
         {
             get { return _playerHand; }
@@ -77,34 +82,46 @@ namespace PlayUnoGUI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Get the player count
+        /// </summary>
         public int PlayerCount 
         {
             get { return OtherPlayers.Count + 1; } 
         }
 
-        public List<Player> OtherPlayers;
+        private List<Player> _othersPlayers;
+        /// <summary>
+        /// Get the list of other player
+        /// </summary>
+        public List<Player> OtherPlayers
+        {
+            get { return _othersPlayers; }
+            set
+            {
+                _othersPlayers = value;
+                RaisePropertyChanged();
+            }
+        }
 
+        /// <summary>
+        /// Check if it's the player turn
+        /// </summary>
         public bool IsPlayerTurn;
         #endregion
 
         #region Constructor
         public ViewModelPlayerWindow()
         {
-            OtherPlayers = [];
+            _currentCard = new ViewModelCard();
+            _playerHand = new ViewModelCardsInHand();
 
-            _player = new Player("Pepita");
+            _player = new Player(String.Empty);
+            _othersPlayers = [];
+
             _deck = new Deck();
-            CurrentCard = new ViewModelCard();
-
-            PlayerHand = new ViewModelCardsInHand();
-            for (int i = 0; i < 7; i++)
-            {
-                PlayerHand.AddCard(_deck.DrawCard());
-            }
-
             if (_deck.CurrentCard != null)
                 CurrentCard.CardObject = _deck.CurrentCard;
-            
         }
         #endregion
 

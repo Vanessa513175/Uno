@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlayUnoGUI.View"
         mc:Ignorable="d"
-        Title="{Binding PlayerName}" Height="500" Width="900">
+        Title="{Binding PlayerName}" 
+        Height="530" Width="900"
+        Name="PlayerWindow">
     <Grid>
         <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10">
             <TextBlock Text="Résumé" FontWeight="Bold" FontSize="15" />
@@ -23,7 +25,8 @@
                     <Border BorderThickness="1" BorderBrush="Black" Padding="10" Margin="5">
                         <StackPanel>
                             <TextBlock Text="{Binding Name}" FontWeight="Bold" />
-                            <TextBlock Text="Cartes restantes : {Binding CardCount}" />
+                            <TextBlock Text="Cartes restantes : "/>
+                            <TextBlock Text="{Binding CardCount}"/>
                         </StackPanel>
                     </Border>
                 </DataTemplate>
@@ -38,8 +41,12 @@
             <StackPanel >
                 <local:ViewCardsInHand DataContext="{Binding PlayerHand}" />
             </StackPanel>
-            <Button Content="Envoyer" Command="{Binding SendCardCommand}"
+            <StackPanel Orientation="Vertical">
+                <Button Margin="9" Content="Envoyer" Command="{Binding SendCardCommand}"
                     IsEnabled="{Binding IsPlayerTurn}" Width="100" Height="40" DockPanel.Dock="Right" />
+                <Button Margin="9" Content="Piocher" Command="{Binding DrawCardCommand}"
+                    IsEnabled="{Binding IsPlayerTurn}" Width="100" Height="40" DockPanel.Dock="Right" />
+            </StackPanel>
         </DockPanel>
     </Grid>
 </Window>

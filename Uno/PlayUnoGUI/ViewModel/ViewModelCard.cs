@@ -11,6 +11,11 @@ namespace PlayUnoGUI.ViewModel
 {
     public class ViewModelCard : ViewModelBase
     {
+        #region Constants
+        private const int FONT_SIZE_FOR_NUMBER = 38;
+        private const int FONT_SIZE_FOR_TEXT = 20;
+        #endregion
+
         #region Fields and Properties
         private Card _cardObject;
         public Card CardObject
@@ -50,6 +55,20 @@ namespace PlayUnoGUI.ViewModel
             }
         }
 
+        private int _fontSize;
+        /// <summary>
+        /// Font size for the text in card
+        /// </summary>
+        public int FontSize
+        {
+            get { return _fontSize; }
+            set
+            {
+                _fontSize = value;
+                RaisePropertyChanged();
+            }
+        }
+
         #endregion
 
         #region Constructor
@@ -59,6 +78,7 @@ namespace PlayUnoGUI.ViewModel
         public ViewModelCard()
         {
             _cardObject = new Card(Card.CardType.Number, "Gray", 0);
+            _fontSize = FONT_SIZE_FOR_NUMBER;
         }
 
         #endregion
@@ -70,6 +90,7 @@ namespace PlayUnoGUI.ViewModel
             {
                 _cardObject.Value = numericValue;
                 _cardObject.Type = Card.CardType.Number;
+                FontSize = FONT_SIZE_FOR_NUMBER;
             }
             else
             {
@@ -77,6 +98,7 @@ namespace PlayUnoGUI.ViewModel
                 {
                     _cardObject.Type = cardAction;
                     _cardObject.Value = -1;
+                    FontSize = FONT_SIZE_FOR_TEXT;
                 }
                 else
                 {

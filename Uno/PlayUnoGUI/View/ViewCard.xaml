@@ -14,7 +14,7 @@
                 ClipToBounds="True">
             <Grid Margin="2,5,2,3">
                 <TextBlock Text="{Binding Value, FallbackValue='No'}"
-                           FontSize="36"
+                           FontSize="{Binding FontSize}"
                            Foreground="White"
                            FontWeight="Bold"
                            HorizontalAlignment="Center"
