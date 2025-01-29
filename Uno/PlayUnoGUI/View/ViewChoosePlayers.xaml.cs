@@ -21,7 +21,7 @@ namespace PlayUnoGUI.View
     /// </summary>
     public partial class ViewChoosePlayers : Window
     {
-        public ViewChoosePlayers(INavigationService navService)
+        public ViewChoosePlayers(NavigationService navService)
         {
             InitializeComponent();
             var viewModel = new ViewModelChoosePlayers(navService);

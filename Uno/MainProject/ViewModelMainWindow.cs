@@ -27,7 +27,7 @@ namespace MainProject
         #endregion
 
         #region Field et Properties
-        private readonly INavigationService _navigationService;
+        private readonly NavigationService _navigationService;
         #endregion
 
         #region Constructor

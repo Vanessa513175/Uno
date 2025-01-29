@@ -29,7 +29,7 @@ namespace Core
         private static readonly Lazy<Logger> _instance = new(() => new Logger());
         public static Logger Instance => _instance.Value;
 
-        private string _lastLogMessage;
+        public event Action<string> LogUpdated;
         #endregion
 
         #region Constructor
@@ -40,7 +40,6 @@ namespace Core
             {
                 Directory.CreateDirectory(directory);
             }
-            _lastLogMessage = String.Empty;
         }
         #endregion
 
@@ -74,7 +73,7 @@ namespace Core
 
             LogInFile(finalMessage);
 
-            _lastLogMessage = finalMessage;
+            LogUpdated?.Invoke(finalMessage);
 
         }
         #endregion

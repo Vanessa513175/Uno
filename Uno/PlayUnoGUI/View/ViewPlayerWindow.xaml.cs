@@ -21,10 +21,10 @@ namespace PlayUnoGUI.View
     /// </summary>
     public partial class ViewPlayerWindow : Window
     {
-        public ViewPlayerWindow(INavigationService nav)
+        public ViewPlayerWindow(NavigationService nav, Guid playerId)
         {
             InitializeComponent();
-            DataContext = new ViewModelPlayerWindow(nav);
+            DataContext = new ViewModelPlayerWindow(nav, playerId);
         }
     }
 }

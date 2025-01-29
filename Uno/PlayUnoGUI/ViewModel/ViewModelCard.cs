@@ -26,6 +26,7 @@ namespace PlayUnoGUI.ViewModel
                 _cardObject = value;
                 Color = _cardObject.Color;
                 Value = _cardObject.StringValue;
+                RaisePropertyChanged();
             }
         }
 

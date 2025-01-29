@@ -14,6 +14,7 @@ namespace PlayUnoData.PlayersData
         #endregion
 
         #region Constants
+        public const int DEFAULT_CARD_COUNT = 7;
         #endregion
 
         #region Events
@@ -64,17 +65,43 @@ namespace PlayUnoData.PlayersData
             _currentPlayer = player;
             _currentDeck = deck;
         }
+
+        public GameModel()
+        {
+            _players = new List<Player>();
+            _currentPlayer = new Player(String.Empty);
+            _currentDeck = new Deck(); ;
+        }
         #endregion
 
         #region Methods
 
         #region Private and Protected Methods
+        private void ClearHandOfPlayers()
+        {
+            foreach (var player in Players)
+            {
+                player.CardsInHand.Clear();
+            }
+        }
         #endregion
 
         #region Public Methods
         public void ReinisializeDeck()
         {
             _currentDeck = new Deck();
+        }
+
+        public void DrawCardToPlayers()
+        {
+            ClearHandOfPlayers();
+            for (int i=0; i<DEFAULT_CARD_COUNT; i++)
+            {
+                foreach(var player in Players)
+                {
+                    player.AddCard(CurrentDeck.DrawCard());
+                }
+            }
         }
         #endregion
 

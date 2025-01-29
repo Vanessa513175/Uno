@@ -6,47 +6,75 @@
         xmlns:local="clr-namespace:PlayUnoGUI.View"
         mc:Ignorable="d"
         Title="{Binding PlayerName}" 
-        Height="530" Width="900"
+        Height="650" Width="1100"
         Name="PlayerWindow">
+
     <Grid>
-        <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10">
-            <TextBlock Text="Résumé" FontWeight="Bold" FontSize="15" />
-            <TextBlock Text="Nombre de joueurs : " FontSize="15" />
-            <TextBlock Text="{Binding PlayerCount}" FontSize="15" />
-            <TextBlock Text="Cartes restantes dans la pioche : " FontSize="15" />
-            <TextBlock Text="{Binding DeckCardCount}" FontSize="15" />
-            <TextBlock Text="Vos cartes : " FontSize="15" />
-            <TextBlock Text="{Binding PlayerCardCount}" FontSize="15" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="300" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Column="0" Grid.Row="0" Margin="5,5,10,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <StackPanel Orientation="Vertical" Margin="10">
+                    <TextBlock Text="Résumé" FontWeight="Bold" FontSize="15" />
+                    <TextBlock Text="Nombre de joueurs : " FontSize="15" />
+                    <TextBlock Text="{Binding PlayerCount}" FontSize="15" />
+                    <TextBlock Text="Cartes restantes dans la pioche : " FontSize="15" />
+                    <TextBlock Text="{Binding DeckCardCount}" FontSize="15" />
+                    <TextBlock Text="Vos cartes : " FontSize="15" />
+                    <TextBlock Text="{Binding PlayerCardCount}" FontSize="15" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+                    <ItemsControl ItemsSource="{Binding OtherPlayers}" Margin="10">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1" BorderBrush="Black" Padding="10" Margin="5">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                                        <TextBlock Text="Cartes restantes : "/>
+                                        <TextBlock Text="{Binding CardCount}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </StackPanel>
+            
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="40">
+                <local:ViewCard DataContext="{Binding CurrentCardViewModel}" />
+            </StackPanel>
+
+            <StackPanel Margin="20">
+                <local:ViewCardsInHand DataContext="{Binding PlayerHandViewModel}" Width="700" />
+            </StackPanel>
         </StackPanel>
 
-        <ItemsControl ItemsSource="{Binding OtherPlayers}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderThickness="1" BorderBrush="Black" Padding="10" Margin="5">
-                        <StackPanel>
-                            <TextBlock Text="{Binding Name}" FontWeight="Bold" />
-                            <TextBlock Text="Cartes restantes : "/>
-                            <TextBlock Text="{Binding CardCount}"/>
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <local:ViewCard DataContext="{Binding CurrentCard}" />
+        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <Button Content="Envoyer" Command="{Binding SendCardCommand}"
+                    IsEnabled="{Binding IsPlayerTurn}" Width="100" Height="40" Margin="10"/>
+            <Button Content="Piocher" Command="{Binding DrawCardCommand}"
+                    IsEnabled="{Binding IsPlayerTurn}" Width="100" Height="40" Margin="10"/>
         </StackPanel>
 
-        <DockPanel VerticalAlignment="Bottom" Margin="10, 10, 10, 30">
-            <StackPanel >
-                <local:ViewCardsInHand DataContext="{Binding PlayerHand}" />
-            </StackPanel>
-            <StackPanel Orientation="Vertical">
-                <Button Margin="9" Content="Envoyer" Command="{Binding SendCardCommand}"
-                    IsEnabled="{Binding IsPlayerTurn}" Width="100" Height="40" DockPanel.Dock="Right" />
-                <Button Margin="9" Content="Piocher" Command="{Binding DrawCardCommand}"
-                    IsEnabled="{Binding IsPlayerTurn}" Width="100" Height="40" DockPanel.Dock="Right" />
-            </StackPanel>
-        </DockPanel>
+        <Border Grid.Column="1" Grid.RowSpan="2" BorderThickness="1" BorderBrush="Gray" Padding="5" Margin="5">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <TextBox Text="{Binding LogText}" 
+                         IsReadOnly="True" 
+                         TextWrapping="Wrap" 
+                         VerticalAlignment="Stretch"
+                         HorizontalAlignment="Stretch"
+                         Background="White" Foreground="Black"/>
+            </ScrollViewer>
+        </Border>
+
     </Grid>
 </Window>

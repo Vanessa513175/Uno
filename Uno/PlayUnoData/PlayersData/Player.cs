@@ -39,11 +39,30 @@ namespace PlayUnoData.PlayersData
             get { return _cardsInHand; }
             set { _cardsInHand = value; }
         }
+
+        /// <summary>
+        /// Count card in hand
+        /// </summary>
+        public int CardCount
+        {
+            get { return _cardsInHand.Count;}
+        }
+
+        private Guid _playerId;
+        /// <summary>
+        /// Player Id
+        /// </summary>
+        public Guid PlayerId
+        {
+            get { return _playerId; }
+            set { _playerId = value; }  
+        }
         #endregion
 
         #region Constructor
         public Player(string name)
         {
+            _playerId = Guid.NewGuid();
             _name = name;
             _cardsInHand = new List<Card>();
         }

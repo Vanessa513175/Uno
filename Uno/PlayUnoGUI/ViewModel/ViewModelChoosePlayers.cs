@@ -10,6 +10,8 @@ using PlayUnoGUI.WindowManager;
 using PlayUnoData.PlayersData;
 using PlayUnoGUI.View;
 using static System.Net.Mime.MediaTypeNames;
+using System.Windows.Navigation;
+using NavigationService = PlayUnoGUI.WindowManager.NavigationService;
 
 namespace PlayUnoGUI.ViewModel
 {
@@ -25,9 +27,12 @@ namespace PlayUnoGUI.ViewModel
         #endregion
 
         #region Field et Properties
-        private readonly INavigationService _navigationService;
+        private readonly NavigationService _navigationService;
 
         private ObservableCollection<Player> _knowPlayers;
+        /// <summary>
+        /// List of know players
+        /// </summary>
         public ObservableCollection<Player> KnownPlayers 
         { 
             get {  return _knowPlayers; } 
@@ -39,6 +44,9 @@ namespace PlayUnoGUI.ViewModel
         }
 
         private ObservableCollection<Player> _playersToAdd;
+        /// <summary>
+        /// List of players to add
+        /// </summary>
         public ObservableCollection<Player> PlayersToAdd 
         { 
             get { return _playersToAdd; }
@@ -50,6 +58,9 @@ namespace PlayUnoGUI.ViewModel
         }
 
         private string _newPlayerName;
+        /// <summary>
+        /// String contains the new player name
+        /// </summary>
         public string NewPlayerName { 
             get { return _newPlayerName; }
             set
@@ -59,9 +70,12 @@ namespace PlayUnoGUI.ViewModel
             } 
         }
 
+        /// <summary>
+        /// Check if can next command
+        /// </summary>
         public bool CanNext
         {
-            get { return PlayersToAdd.Count > 2; }
+            get { return PlayersToAdd.Count > 1; }
         }
 
         public ICommand AddPlayerCommand { get; private set; }
@@ -69,7 +83,11 @@ namespace PlayUnoGUI.ViewModel
         #endregion
 
         #region Constructor
-        public ViewModelChoosePlayers(INavigationService navService)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="navService"></param>
+        public ViewModelChoosePlayers(NavigationService navService)
         {
             _navigationService = navService;
 
@@ -85,6 +103,9 @@ namespace PlayUnoGUI.ViewModel
         #region Methods
 
         #region Private and Protected Methods
+        /// <summary>
+        /// Add a player
+        /// </summary>
         private void AddPlayer()
         {
             if (!string.IsNullOrWhiteSpace(NewPlayerName))
@@ -96,12 +117,20 @@ namespace PlayUnoGUI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Next command
+        /// </summary>
         private void Next()
         {
             if (CanNext)
             {
                 Logger.Instance.Log(Logger.ELevelMessage.Info, "Création d'une partie avec " + PlayersToAdd.Count + " joueurs");
-                _navigationService.NavigateTo("PlayerWindow");
+                _navigationService.ShareGameModel.Players = PlayersToAdd.ToList();
+
+                Logger.Instance.Log(Logger.ELevelMessage.Info, "Distibution des cartes");
+                _navigationService.ShareGameModel.DrawCardToPlayers();
+
+                _navigationService.NavigateTo("PlayerWindow", PlayersToAdd.FirstOrDefault().PlayerId);
             }
             else
             {
