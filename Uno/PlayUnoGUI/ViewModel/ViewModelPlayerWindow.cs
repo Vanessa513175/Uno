@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using PlayUnoGUI.WindowManager;
 using PlayUnoData.PlayersData;
 using PlayUnoData.UnoData;
 
@@ -22,6 +23,8 @@ namespace PlayUnoGUI.ViewModel
         #endregion
 
         #region Field et Properties
+        private readonly INavigationService _navigationService;
+
         public Player _player;
         public Deck _deck;
 
@@ -111,8 +114,10 @@ namespace PlayUnoGUI.ViewModel
         #endregion
 
         #region Constructor
-        public ViewModelPlayerWindow()
+        public ViewModelPlayerWindow(INavigationService navService)
         {
+            _navigationService = navService;
+
             _currentCard = new ViewModelCard();
             _playerHand = new ViewModelCardsInHand();
 

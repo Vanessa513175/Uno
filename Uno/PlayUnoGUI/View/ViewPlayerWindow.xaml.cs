@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using PlayUnoGUI.WindowManager;
 using PlayUnoGUI.ViewModel;
 
 namespace PlayUnoGUI.View
@@ -20,10 +21,10 @@ namespace PlayUnoGUI.View
     /// </summary>
     public partial class ViewPlayerWindow : Window
     {
-        public ViewPlayerWindow()
+        public ViewPlayerWindow(INavigationService nav)
         {
             InitializeComponent();
-            DataContext = new ViewModelPlayerWindow();
+            DataContext = new ViewModelPlayerWindow(nav);
         }
     }
 }

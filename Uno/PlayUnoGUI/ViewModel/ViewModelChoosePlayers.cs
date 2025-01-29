@@ -6,8 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Core;
+using PlayUnoGUI.WindowManager;
 using PlayUnoData.PlayersData;
-using PlayUnoGUI.Manager;
 using PlayUnoGUI.View;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -25,6 +25,8 @@ namespace PlayUnoGUI.ViewModel
         #endregion
 
         #region Field et Properties
+        private readonly INavigationService _navigationService;
+
         private ObservableCollection<Player> _knowPlayers;
         public ObservableCollection<Player> KnownPlayers 
         { 
@@ -67,14 +69,16 @@ namespace PlayUnoGUI.ViewModel
         #endregion
 
         #region Constructor
-        public ViewModelChoosePlayers()
+        public ViewModelChoosePlayers(INavigationService navService)
         {
+            _navigationService = navService;
+
             _newPlayerName = String.Empty;
-            _knowPlayers = new ObservableCollection<Player>();
-            _playersToAdd = new ObservableCollection<Player>();
+            _knowPlayers = [];
+            _playersToAdd = [];
 
             AddPlayerCommand = new RelayCommand(AddPlayer);
-            NextCommand = new RelayCommand(Next, CanNext);
+            NextCommand = new RelayCommand(Next);
         }
         #endregion
 
@@ -88,15 +92,21 @@ namespace PlayUnoGUI.ViewModel
                 var newPlayer = new Player ( NewPlayerName );
                 PlayersToAdd.Add(newPlayer);
                 NewPlayerName = string.Empty;
-                RaisePropertyChanged("CanNext");
+                RaisePropertyChanged(nameof(CanNext));
             }
         }
 
         private void Next()
         {
-            Logger.Instance.Log(Logger.ELevelMessage.Info, "Création d'une partie avec " + PlayersToAdd.Count + " joueurs");
-            WindowManager.Instance.CloseWindow("ChoosePlayers");
-            WindowManager.Instance.OpenWindow(new ViewPlayerWindow());
+            if (CanNext)
+            {
+                Logger.Instance.Log(Logger.ELevelMessage.Info, "Création d'une partie avec " + PlayersToAdd.Count + " joueurs");
+                _navigationService.NavigateTo("PlayerWindow");
+            }
+            else
+            {
+                Logger.Instance.Log(Logger.ELevelMessage.Warning, "Il faut au moins 2 joueurs pour créer une partie");
+            }
         }
         #endregion
 

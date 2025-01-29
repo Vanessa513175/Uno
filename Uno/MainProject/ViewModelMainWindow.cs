@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Core;
-using PlayUnoGUI.Manager;
 using PlayUnoGUI.View;
+using System.Windows.Input;
+using PlayUnoGUI.WindowManager;
+using System.Windows.Navigation;
+using NavigationService = PlayUnoGUI.WindowManager.NavigationService;
 
-namespace PlayUnoGUI.ViewModel
+namespace MainProject
 {
-    public class ViewModelMenu : ViewModelBase
+    public class ViewModelMainWindow
     {
         #region Enum
         #endregion
@@ -25,11 +27,14 @@ namespace PlayUnoGUI.ViewModel
         #endregion
 
         #region Field et Properties
+        private readonly INavigationService _navigationService;
         #endregion
 
         #region Constructor
-        public ViewModelMenu()
+        public ViewModelMainWindow()
         {
+            _navigationService = new NavigationService();
+
             StartGameCommand = new RelayCommand(StartGame);
             ViewStatsCommand = new RelayCommand(ViewStats);
             QuitCommand = new RelayCommand(Quit);
@@ -42,8 +47,7 @@ namespace PlayUnoGUI.ViewModel
         private void StartGame()
         {
             Logger.Instance.Log(Logger.ELevelMessage.Info, "Lancement d'une partie");
-            WindowManager.Instance.CloseWindow("Menu");
-            WindowManager.Instance.OpenWindow(new ViewChoosePlayers());
+            _navigationService.NavigateTo("ChoosePlayers");
         }
 
         private void ViewStats()

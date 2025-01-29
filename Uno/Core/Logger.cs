@@ -23,35 +23,37 @@ namespace Core
         #endregion
 
         #region Events
-        public event Action<string> LogReceived;
         #endregion
 
         #region Fields and Properties
-        private static readonly Lazy<Logger> _instance = new Lazy<Logger>(() => new Logger());
+        private static readonly Lazy<Logger> _instance = new(() => new Logger());
         public static Logger Instance => _instance.Value;
+
+        private string _lastLogMessage;
         #endregion
 
         #region Constructor
         private Logger()
         {
-            string directory = Path.GetDirectoryName(FILE_PATH);
-            if (!Directory.Exists(directory))
+            string? directory = Path.GetDirectoryName(FILE_PATH);
+            if (directory!=null && !Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }
+            _lastLogMessage = String.Empty;
         }
         #endregion
 
         #region Methods
 
         #region Private and Protected Methods
-        private string GetLogFilePath()
+        private static string GetLogFilePath()
         {
             string date = DateTime.Now.ToString("yyyy-MM-dd");
             return Path.Combine(FILE_PATH, $"log_{date}.txt");
         }
 
-        private void LogInFile(string message)
+        private static void LogInFile(string message)
         {
             try
             {
@@ -72,7 +74,8 @@ namespace Core
 
             LogInFile(finalMessage);
 
-            LogReceived?.Invoke(finalMessage);
+            _lastLogMessage = finalMessage;
+
         }
         #endregion
 

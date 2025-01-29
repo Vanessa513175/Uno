@@ -8,8 +8,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using PlayUnoGUI.Manager;
 using PlayUnoGUI.View;
+using PlayUnoGUI.ViewModel;
 
 namespace MainProject
 {
@@ -21,7 +21,7 @@ namespace MainProject
         public MainWindow()
         {
             InitializeComponent();
-            WindowManager.Instance.OpenWindow(new ViewMenu());
+            DataContext = new ViewModelMainWindow();
         }
     }
 }
